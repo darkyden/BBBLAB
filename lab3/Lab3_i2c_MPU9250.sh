@@ -1,0 +1,7 @@
+#!/bin/bash
+
+SENSOR_ADDR=0x68
+SENSOR_REG_ID=0x75
+SENSOR_ID=0x71
+
+./Sensor_test.sh "$SENSOR_ADDR" "$SENSOR_REG_ID" "$SENSOR_ID"
