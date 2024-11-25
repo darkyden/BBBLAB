@@ -1,10 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <ctype.h>
+
+#include "uarm_swift_pro.h"
 
 // Fonction pour initialiser le port série
 int init_serial(const char *port_name, int baud_rate) {
@@ -84,14 +79,17 @@ void test_phase(int serial_port) {
     printf("Phase de test terminée.\n");
 }
 
-int main() {
+int main_() {
     const char *serial_port_name = "/dev/ttyACM0"; // Port série
     int baud_rate = B115200; // Vitesse en bauds (à adapter si nécessaire)
 
     // Initialisation du port série
     int serial_port = init_serial(serial_port_name, baud_rate);
     if (serial_port < 0) {
-        return EXIT_FAILURE;
+	    serial_port = init_serial("/dev/ttyACM1",baud_rate);
+	    if(serial_port < 0){
+                return EXIT_FAILURE;
+	    }
     }
 
     printf("Connexion établie avec le uArm Swift Pro.\n");
@@ -104,19 +102,10 @@ int main() {
         test_phase(serial_port);
     }
 
-    // Envoi des commandes principales
- //   send_gcode(serial_port, "M17");  // Activer les moteurs
-   // read_response(serial_port);
-//
-  //  send_gcode(serial_port, "G0 X150 Y100 Z150 F10000"); // Déplacer à une position donnée
-    //read_response(serial_port);
-
-   // send_gcode(serial_port, "G0 X250 Y100 Z100 F5000"); // Déplacer à une autre position
-    //read_response(serial_port);
 
     // Fermer le port série
     close(serial_port);
 
     printf("Programme terminé.\n");
-    return EXIT_SUCCESS;
+   return EXIT_SUCCESS;
 }
