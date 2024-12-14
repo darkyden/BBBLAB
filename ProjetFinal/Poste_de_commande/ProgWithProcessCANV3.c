@@ -44,19 +44,19 @@ int setup_can_socket(const char *interface, int apply_filters) {
     }
 
     // Application des filtres si nécessaire
-    if (apply_filters) {
-        struct can_filter filters[3];
-        filters[0].can_id = 0x001;
-        filters[0].can_mask = CAN_SFF_MASK;
-        filters[1].can_id = 0x002;
-        filters[1].can_mask = CAN_SFF_MASK;
-        filters[2].can_id = 0x003;
-        filters[2].can_mask = CAN_SFF_MASK;
+    //if (apply_filters) {
+      //  struct can_filter filters[3];
+       // filters[0].can_id = 0x001;
+       // filters[0].can_mask = CAN_SFF_MASK;
+      //  filters[1].can_id = 0x002;
+       // filters[1].can_mask = CAN_SFF_MASK;
+       // filters[2].can_id = 0x003;
+       // filters[2].can_mask = CAN_SFF_MASK;
 
-        if (setsockopt(can_socket, SOL_CAN_RAW, CAN_RAW_FILTER, &filters, sizeof(filters)) < 0) {
-            error("Erreur lors de l'application des filtres CAN");
-        }
-    }
+        //if (setsockopt(can_socket, SOL_CAN_RAW, CAN_RAW_FILTER, &filters, sizeof(filters)) < 0) {
+          //  error("Erreur lors de l'application des filtres CAN");
+       // }
+    //}
 
     return can_socket;
 }
@@ -140,11 +140,11 @@ void parent_process(int pipe_fd, const char *interface) {
         if (user_input == 'q') {
             printf("Père : Quitte le programme.\n");
             break;
-        } else if (user_input == 'e') {
+       // } else if (user_input == 'e') {
             // Préparation des données d'envoi
-            for (int i = 0; i < 8; i++) {
-                frame.data[i] = i; // Exemple de données
-            }
+         //   for (int i = 0; i < 8; i++) {
+                frame.data[0] = user_input; // Exemple de données
+           // }
 
             // Envoi du message CAN
             send_can_message(can_socket, &frame);
